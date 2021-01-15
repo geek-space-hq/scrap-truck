@@ -13,6 +13,10 @@ class Client
     @projects = set_projects
   end
 
+  def search_pages(keyword)
+    @projects.map { _1.search(keyword) }.flatten
+  end
+
   private
 
   def set_projects
