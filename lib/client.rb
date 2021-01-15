@@ -5,12 +5,12 @@ require 'rest-client'
 require_relative 'project'
 
 class Client
-  attr_reader :projects
+  attr_reader :projects, :token
 
   def initialize(token)
     @token = token
 
-    @project = set_projects
+    @projects = set_projects
   end
 
   private
@@ -24,7 +24,7 @@ class Client
     return [] unless response.code == 200
 
     JSON.parse(response.body)['projects'].map do
-      Project.new(id: _1['id'], name: _1['name'])
+      Project.new({ id: _1['id'], name: _1['name'] }, self)
     end
   end
 end
