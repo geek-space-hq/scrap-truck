@@ -74,6 +74,7 @@ PLATFORMS
 
 DEPENDENCIES
   discordrb
+  rest-client
   rspec
   rubocop
 
