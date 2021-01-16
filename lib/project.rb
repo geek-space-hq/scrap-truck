@@ -6,9 +6,12 @@ require_relative 'page'
 
 module ScrapBox
   class Project
+    attr_reader :id, :name, :url
+
     def initialize(data, client)
       @id = data[:id]
       @name = data[:name]
+      @url = "https://scrapbox.io/#{@name}"
 
       @client = client
     end
