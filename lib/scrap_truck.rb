@@ -18,9 +18,16 @@ class ScrapTruck
 
   def search(event)
     keyword = event.content.delete_prefix('$search ')
-    result = @scrapbox_bot.search_pages(keyword).map { _1.url }
-    event.respond(result.join("\n"))
-    result
+    pages = @scrapbox_bot.search_pages(keyword)
+    event.send_embed('', pages_to_embed(pages))
+  end
+
+  def pages_to_embed(pages)
+    fields = pages.map do
+      Discordrb::Webhooks::EmbedField.new(inline: false, name: _1.title, value: _1.url)
+    end
+
+    Discordrb::Webhooks::Embed.new(fields: fields)
   end
 
   def setup

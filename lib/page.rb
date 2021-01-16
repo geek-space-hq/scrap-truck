@@ -9,7 +9,7 @@ module ScrapBox
       @title = data[:title]
       @descriptions = data[:descriptions]
       @project = data[:project]
-      @url = "https://scrapbox.io/#{@project.name}/#{title}"
+      @url = "https://scrapbox.io/#{@project.name}/#{title.gsub(' ', '_')}"
     end
   end
 end
