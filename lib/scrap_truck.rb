@@ -16,8 +16,16 @@ class ScrapTruck
     scrapbox_projects
   end
 
+  def search(event)
+    keyword = event.content.delete_prefix('$search ')
+    result = @scrapbox_bot.search_pages(keyword).map { _1.url }
+    event.respond(result.join("\n"))
+    result
+  end
+
   def setup
     @discord_bot.message(content: '$projects', &method(:projects))
+    @discord_bot.message(start_with: '$search', &method(:search))
   end
 
   def run
