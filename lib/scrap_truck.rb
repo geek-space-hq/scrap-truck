@@ -29,11 +29,16 @@ class ScrapTruck
   end
 
   def pages_to_embed(pages)
-    fields = pages.map do
+    fields = pages[..7].map do
       Discordrb::Webhooks::EmbedField.new(inline: false, name: _1.title, value: _1.url)
     end
 
-    Discordrb::Webhooks::Embed.new(fields: fields)
+    footer = Discordrb::Webhooks::EmbedFooter.new(text: 'And more...') if pages.size > 8
+
+    embed = Discordrb::Webhooks::Embed.new(
+      fields: fields,
+      footer: footer
+    )
   end
 
   def setup
