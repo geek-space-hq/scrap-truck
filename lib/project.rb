@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'uri'
 require 'json'
 require 'rest-client'
 require_relative 'page'
@@ -18,7 +19,7 @@ module ScrapBox
 
     def search(keyword)
       response = RestClient.get(
-        "https://scrapbox.io/api/pages/#{@name}/search/query?q=#{keyword}",
+        "https://scrapbox.io/api/pages/#{@name}/search/query?" + URI.encode_www_form({ q: keyword }),
         { cookies: { 'connect.sid': @client.token } }
       )
 
