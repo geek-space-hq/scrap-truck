@@ -34,10 +34,12 @@ class ScrapTruck
     end
 
     footer = Discordrb::Webhooks::EmbedFooter.new(text: 'And more...') if pages.size > 8
+    description = '見つからんかった 👀' if pages.size == 0
 
-    embed = Discordrb::Webhooks::Embed.new(
+    Discordrb::Webhooks::Embed.new(
       fields: fields,
-      footer: footer
+      footer: footer,
+      description: description
     )
   end
 
