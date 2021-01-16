@@ -4,24 +4,26 @@ require 'json'
 require 'rest-client'
 require_relative 'page'
 
-class Project
-  def initialize(data, client)
-    @id = data[:id]
-    @name = data[:name]
+module ScrapBox
+  class Project
+    def initialize(data, client)
+      @id = data[:id]
+      @name = data[:name]
 
-    @client = client
-  end
+      @client = client
+    end
 
-  def search(keyword)
-    response = RestClient.get(
-      "https://scrapbox.io/api/pages/#{@name}/search/query?q=#{keyword}",
-      { cookies: { 'connect.sid': @client.token } }
-    )
+    def search(keyword)
+      response = RestClient.get(
+        "https://scrapbox.io/api/pages/#{@name}/search/query?q=#{keyword}",
+        { cookies: { 'connect.sid': @client.token } }
+      )
 
-    return [] unless response.code == 200
+      return [] unless response.code == 200
 
-    JSON.parse(response.body)['pages'].map do
-      Page.new(id: _1['id'], title: _1['title'], descriptions: _1['descriptions'], project: self)
+      JSON.parse(response.body)['pages'].map do
+        Page.new(id: _1['id'], title: _1['title'], descriptions: _1['descriptions'], project: self)
+      end
     end
   end
 end
