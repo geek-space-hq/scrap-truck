@@ -18,6 +18,12 @@ class ScrapTruck
 
   def search(event)
     keyword = event.content.delete_prefix('$search ')
+    if keyword.match?(/<#\d+>/)
+      mention = keyword.match(/<#\d+>/).to_s
+      channel = @discord_bot.channel(mention.match(/\d+/).to_s.to_i)
+      keyword = keyword.gsub(mention, "##{channel.name}")
+    end
+
     pages = @scrapbox_bot.search_pages(keyword)
     event.send_embed('', pages_to_embed(pages))
   end
